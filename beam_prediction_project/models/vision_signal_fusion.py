@@ -6,18 +6,15 @@ class VisionSignalFusionNet(nn.Module):
     def __init__(self, num_classes=64):
         super(VisionSignalFusionNet, self).__init__()
 
-        # Görsel kısım: Pretrained ResNet18
         self.cnn = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
         self.cnn.fc = nn.Identity()  # Son katmanı çıkar, 512-d feature elde ederiz
 
-        # Power vektörü için MLP
         self.signal_mlp = nn.Sequential(
             nn.Linear(64, 128),
             nn.ReLU(),
             nn.Linear(128, 128)
         )
 
-        # Birleştirme + sınıflandırma
         self.classifier = nn.Sequential(
             nn.Linear(512 + 128, 256),
             nn.ReLU(),
