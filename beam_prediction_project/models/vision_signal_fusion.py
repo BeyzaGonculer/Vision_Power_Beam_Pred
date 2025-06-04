@@ -22,8 +22,8 @@ class VisionSignalFusionNet(nn.Module):
         )
 
     def forward(self, image, power):
-        img_feat = self.cnn(image)          # (batch, 512)
-        power_feat = self.signal_mlp(power) # (batch, 128)
+        img_feat = self.cnn(image)          
+        power_feat = self.signal_mlp(power) 
         fusion = torch.cat((img_feat, power_feat), dim=1)  # (batch, 640)
         output = self.classifier(fusion)
         return output
